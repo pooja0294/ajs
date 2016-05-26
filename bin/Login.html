@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Login Form</title>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<style>
+#static
+{
+height:70px;
+width:200px;
+background-color:lightblue;
+
+border:1px solid;
+}
+</style>
+</head>
+<body>
+<div id="static"><center>
+Username:test<br/><br/>
+Password:test</center>
+</div>
+<div ng-show="error">{{error}}</div>
+<form ng-show="visible" name="form" ng-submit="login()" ng-app="Authentication" ng-controller="LoginController" novalidate>
+<h1>Login Form</h1>
+<p>Email Id</p>
+
+<input type="text" placeholder="Enter Email Id" ng-model="email" name="email" required>
+ <span style = "color:red" ng-show = "form.email.$dirty && form.email.$invalid">
+                        <span ng-show = "form.email.$error.required">Email is required.</span>
+                        <span ng-show = "form.email.$error.email">Invalid email address.</span>
+                     </span>
+<p>Password</p>
+
+<input type="Password" placeholder="Enter Password" ng-model="pw" name="pw" required>
+<span style = "color:red" ng-show = "form.pw.$dirty && form.pw.$invalid">
+                        <span ng-show = "form.pw.$error.required">Password is required.</span>
+                       
+                     </span>
+<br/><br/><br/>
+<!-- <button ng-click="submit()">Login</button> -->
+  <button ng-disabled = "form.pw.$dirty &&
+                        form.pw.$invalid || form.email.$dirty &&
+                        form.email.$invalid" ng-click="submit()">Login</button>
+
+</form>
+<script>
+angular.module('Authentication')
+
+.controller('LoginController',
+    ['$scope', '$rootScope', '$location', 'AuthenticationService',
+    function ($scope, $rootScope, $location, AuthenticationService) {
+        // reset login status
+        AuthenticationService.ClearCredentials();
+ 
+        $scope.login = function () {
+            $scope.dataLoading = true;
+            AuthenticationService.Login($scope.username, $scope.password, function(response) {
+                if(response.success) {
+                    AuthenticationService.SetCredentials($scope.username, $scope.password);
+                    $location.path('/');
+                } else {
+                    $scope.error = response.message;
+                    $scope.dataLoading = false;
+                }
+            });
+        };
+    }]);
+</script>
+</body>
+</html>

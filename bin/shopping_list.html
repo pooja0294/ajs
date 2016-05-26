@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Shopping List</title>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+</head>
+<body>
+<script>
+ var app=angular.module("MyApp",[])
+ app.controller("MyCtrl",function($scope)
+ {
+	$scope.list=["Vegetables","Frits","Clothes"];
+	$scope.addItem=function(){
+		$scope.errortext="";
+		if(!$scope.add){$scope.errortext = "The item is blank";return;}
+		if($scope.list.indexOf($scope.add)==-1)
+			{
+			$scope.list.push($scope.add);
+			}
+		else
+			{
+			$scope.errortext = "The item is already in your shopping list.";
+			}
+	}
+	$scope.removeItem=function(x){
+		$scope.errortext="";
+		$scope.list.splice(x,1);
+	}
+ });
+</script>
+
+<h1>Shopping List</h1>
+<div ng-app="MyApp" ng-controller="MyCtrl">
+<ul>
+<li ng-repeat="x in list">{{x}} &nbsp;&nbsp;&nbsp;&nbsp;
+<span ng-model="remove" ng-click="removeItem($index)">x</span>
+ </li>
+ </ul>
+<input type="text" ng-model="add"/>
+<button ng-click="addItem()">ADD</button>
+<p>{{errortext}}</p>
+</div>
+
+</body>
+</html>

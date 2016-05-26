@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Login</title>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+</head>
+<body>
+<div ng-app="MyApp" ng-controller="MyCtrl">
+<h1>Model Example</h1>
+<button ng-click="show()">Open Model</button>
+<form ng-show="visible" name="form" novalidate>
+<h1>Login Form</h1>
+<p>Email Id</p>
+
+
+<input type="text" placeholder="Enter Email Id" ng-model="email" name="email" required>
+ <span style = "color:red" ng-show = "form.email.$dirty && form.email.$invalid">
+                        <span ng-show = "form.email.$error.required">Email is required.</span>
+                        <span ng-show = "form.email.$error.email">Invalid email address.</span>
+                     </span>
+<p>Password</p>
+
+<input type="Password" placeholder="Enter Password" ng-model="pw" name="pw" required>
+<span style = "color:red" ng-show = "form.pw.$dirty && form.pw.$invalid">
+                        <span ng-show = "form.pw.$error.required">Password is required.</span>
+                       
+                     </span>
+<br/><br/><br/>
+
+<button ng-click="submit()">Login</button>
+
+</form>
+</div>
+<script>
+var app=angular.module("MyApp",[]);
+app.controller("MyCtrl",function($scope){
+visible="false";
+$scope.show=function(){
+	$scope.visible=!$scope.visible;
+}
+$scope.submit=function(){
+
+	alert("Successfully Login");
+}
+}
+		);
+</script>
+
+</body>
+</html>
